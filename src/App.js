@@ -1,42 +1,30 @@
 import React from 'react';
 import {
-  ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
-  theme,
+   ChakraProvider,
 } from '@chakra-ui/react';
-import { ColorModeSwitcher } from './ColorModeSwitcher';
-import { Logo } from './Logo';
+import theme from './theme';
+import Layout from './components/layout/layout';
+import Panel from './components/layout/panel';
+import Chat from './components/chat/chat';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 function App() {
-  return (
-    <ChakraProvider theme={theme}>
-      <Box textAlign="center" fontSize="xl">
-        <Grid minH="100vh" p={3}>
-          <ColorModeSwitcher justifySelf="flex-end" />
-          <VStack spacing={8}>
-            <Logo h="40vmin" pointerEvents="none" />
-            <Text>
-              Edit <Code fontSize="xl">src/App.js</Code> and save to reload.
-            </Text>
-            <Link
-              color="teal.500"
-              href="https://chakra-ui.com"
-              fontSize="2xl"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn Chakra
-            </Link>
-          </VStack>
-        </Grid>
-      </Box>
-    </ChakraProvider>
-  );
+
+   console.log(theme);
+
+   return (
+      <ChakraProvider theme={theme}>
+         <Layout name="layout">
+            <Routes>
+               <Route path="/" element={ <Navigate to="chats/ww3" replace /> } />
+               <Route path="chats" element={<Panel variant="content" name="content" />}>
+                  <Route path=":chat" element={<Chat />} />
+               </Route>
+            </Routes>
+            <Panel variant="sidebar" name="sidebar">sidebar</Panel>
+         </Layout>
+      </ChakraProvider>
+   );
 }
 
 export default App;
