@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, useMultiStyleConfig } from "@chakra-ui/react";
+import { Box, useStyleConfig } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { uniq } from "lodash";
 import Entry from "./entry";
@@ -39,10 +39,6 @@ const useChat = chatName => {
       .catch(err => { setError(err) });
    }, [entries]);
 
-   /* useEffect(() => {
-      console.log("ACTORS:", actors);
-   }, [actors]); */
-
    useEffect(() => { if (error) setStatus("error") }, [error]);
 
    useEffect(() => {
@@ -55,11 +51,11 @@ const useChat = chatName => {
 
 const Chat = () => {
 
-   const styles = useMultiStyleConfig("Chat");
+   const styles = useStyleConfig("Chat");
 
    const { chat } = useParams();
 
-   const { error, status, entries, actors } = useChat(chat);
+   const { status, entries, actors } = useChat(chat);
 
    useEffect(() => {
       console.log("CHAT:", entries);
@@ -69,10 +65,8 @@ const Chat = () => {
    if (status !== "success") return null;
 
    return (
-      <Box __css={styles.chat} name="chat">
-
+      <Box __css={styles} name="chat">
          <Box>
-            <h1>{ chat }</h1>
             {
                entries.map((entry, i) => {
                   const a = actors.find(a => a.id === entry.actor);
@@ -83,7 +77,6 @@ const Chat = () => {
                })
             }
          </Box>
-
 
       </Box>
    )
